@@ -1,3 +1,3 @@
 ##
 # Tugas APG - TclTk - Visualisasi
-# 4KS2
+# Komputasi Statistik
