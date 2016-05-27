@@ -18,21 +18,35 @@ BivariateGUI <- function(){
       tt, text = "Bivariate Normal\nSimulation", justify = "center",
       font=fontTitle
     ),
-    padx = 10, pady = c(5, 5),row=0,column=0
+    padx = 10, pady = c(20, 5),row=0,column=0
   )
   # Frame for Plotting
   plot.frame<-tk2frame(tt,borderwidth=2,relief="flat")
   tkgrid(plot.frame,padx=0,pady=c(0,0),row=1,column=0,sticky="w")
   
+  # Testing Plot
+  plothist <- function() {
+    mean <- meaninput
+    std <- stdinput
+    data1 <- rnorm(n=pos,mean,std)
+    hist(data1 , main=paste("Test Plot\nHistogram, mean = ", mean,", std = ", std,  ", n = ",pos  , 
+                            sep=""  ) ,col="blue" , xlab="", nclass=30)
+  }
+  
+  plot1 <- tkrplot(plot.frame,fun=plothist, 1.2,1.2)
+  plot2 <- tkrplot(plot.frame,fun=plothist, 1.2,1.2)
+  tkgrid(plot1,plot2,padx=20)
+  
   # Frame for Input 
   input.frame<-tk2frame(tt,borderwidth=2,relief="flat")
-  tkgrid(input.frame,padx=0,pady=c(0,0),row=2,column=0,sticky="w")
+  tkgrid(input.frame,padx=20,pady=c(0,20),row=2,column=0,sticky="w")
   tkgrid(
     tk2label(
       input.frame,text="Parameter Value",font=fontCommand
     ),
     padx= 5,pady=c(5,5),row=0,column=0,sticky="w"
   )
+  
   #Slider Miu
   slidermiuX <- tclVar("0")
   slidermiuY <- tclVar("0")
@@ -40,11 +54,12 @@ BivariateGUI <- function(){
   miu<-c(as.integer(tclvalue(slidermiuX)),as.integer(tclvalue(slidermiuY)))
   
   labelmiux <- tk2label(input.frame,
-                             text = "miu x= 0",justify="left") 
+                        text = "miu x= 0",justify="left") 
   tkgrid(labelmiux, padx = 5, pady = c(5, 5),row=1,column=0,sticky="w")
   labelmiuY <- tk2label(input.frame,
                         text = "miu y= 0",justify="left") 
   tkgrid(labelmiuY, padx = 5, pady = c(5, 5),row=1,column=3,sticky="w")
+  
   onChangeX <- function(...) {
     value <- as.integer(tclvalue(slidermiuX))
     label <- sprintf("miu x= %s", value)
@@ -61,9 +76,9 @@ BivariateGUI <- function(){
   }
   
   miux.slider <- tk2scale(input.frame, from = -5, to = 5,
-                              variable = slidermiuX, 
-                              orient = "horizontal", length = 100,
-                              command = onChangeX)
+                          variable = slidermiuX, 
+                          orient = "horizontal", length = 100,
+                          command = onChangeX)
   tkgrid(miux.slider, padx = 5, pady = c(5, 5),row=1,column=1,columnspan=2)
   miuY.slider <- tk2scale(input.frame, from = -5, to = 5,
                           variable = slidermiuY, 
