@@ -38,10 +38,13 @@ facetcol <- function(c, z){
 }
 
 # Perspective Plot (Default Color: Green and Blue) *user customized color will be added later (if it is necessary)
-BiVPers <- function(x,y){
+BiVPers <- function(x,y,co){
   # Computes the density values
-  z <- as.matrix(outer(x,y,bivariate))
-  f <- facetcol(c('green','blue'),z)
+  z <- outer(x,y,bivariate)
+  if(missing(co)){
+    co <- c('blue','green')
+  }
+  f <- facetcol(co,z)
   persp(x, y, z, main = "Bivariate Normal Distribution",
         sub = bquote(bold(mu[1])==.(mu1)~", "~sigma[1]==.(sig1)~", "
                      ~mu[2]==.(mu2)~", "~sigma[2]==.(sig2)~", "~rho==.(rho)),
@@ -50,7 +53,7 @@ BiVPers <- function(x,y){
         ticktype = "detailed", nticks=5) 
 }
 
-# These variables will be gotten from the gui slider, I guess
+# These variables will be obtained from the gui slider, I guess
 # this is the dummy variable to try the function out
 mu1 <- 0 # expected value of x
 mu2 <- 0.5 # expected value of y
@@ -58,7 +61,7 @@ sig1 <- 0.5 # variance of x
 sig2 <- 2 # variance of y
 rho <- 0.5 # corr(x, y)
 
-# These additional variables maybe will be gotten from the 'random data generation', I guess
+# These additional variables maybe will be obtained from the 'random data generation', I guess
 # Some additional variables for x-axis and y-axis
 xm <- -3
 xp <- 3
@@ -66,5 +69,7 @@ ym <- -3
 yp <- 3
 x <- seq(xm, xp, length= as.integer((xp + abs(xm)) * 10)) # vector series x
 y <- seq(ym, yp, length= as.integer((yp + abs(ym)) * 10)) # vector series y
-
+co <- c('yellow','white')
+co
+BiVPers(x,y,co)
 BiVPers(x,y)
