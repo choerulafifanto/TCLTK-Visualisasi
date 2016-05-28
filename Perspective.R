@@ -38,20 +38,34 @@ facetcol <- function(c, z){
 }
 
 # Perspective Plot (Default Color: Green and Blue) *user customized color will be added later (if it is necessary)
-BiVPers <- function(x,y,co){
+BiVPers <- function(x,y,co,theta,phi,r,d,expand,border,ltheta,lphi,shade,box,axes,nticks,ticktype){
+  ## Default S3 method:
+  if(missing(co)){ co <- c('blue','green') }
+  if(missing(theta)){ theta = 0 }
+  if(missing(phi)){ phi = 15 }
+  if(missing(r)){ r = sqrt(3) }
+  if(missing(d)){ d = 1 }
+  if(missing(expand)){ expand = 1 }
+  if(missing(border)){ border = NULL}
+  if(missing(ltheta)){ ltheta = -135 }
+  if(missing(lphi)){ lphi = 0 }
+  if(missing(shade)){ shade = NA }
+  if(missing(box)){ box = TRUE }
+  if(missing(axes)){ axes = TRUE }
+  if(missing(nticks)){ nticks = 5 }
+  if(missing(ticktype)){ ticktype = "simple" }
   # Computes the density values
   z <- outer(x,y,bivariate)
-  if(missing(co)){
-    co <- c('blue','green')
-  }
   f <- facetcol(co,z)
   persp(x, y, z, main = "Bivariate Normal Distribution",
-        sub = bquote(bold(mu[1])==.(mu1)~", "~sigma[1]==.(sig1)~", "
-                     ~mu[2]==.(mu2)~", "~sigma[2]==.(sig2)~", "~rho==.(rho)),
-        col = color[facetcl], theta = 55, phi = 30, r = 40, d = 0.1,
-        expand = 0.5,ltheta = 90, lphi = 180, shade = 0.4,
-        ticktype = "detailed", nticks=5) 
+        sub = bquote(bold(mu[1])==.(mu1)~", "~sigma[1]==.(sig1)~", 
+        "~mu[2]==.(mu2)~", "~sigma[2]==.(sig2)~", "~rho==.(rho)),
+        col = color[facetcl], theta = theta, phi = phi, r = r, d = d,
+        expand = expand,border = border, ltheta = ltheta, lphi = lphi, 
+        shade = shade, box = box, axes = axes,
+        ticktype = ticktype, nticks=nticks) 
 }
+# rotate graph with theta. Default: theta: 55, phi: 30
 
 # These variables will be obtained from the gui slider, I guess
 # this is the dummy variable to try the function out
@@ -67,9 +81,18 @@ xm <- -3
 xp <- 3
 ym <- -3
 yp <- 3
+#+/- 3 simpangan baku akan berkisar 99.7%,
+xm <- mu1 - 3 * sig1 
+xp <- mu1 + 3 * sig1
+ym <- mu2 - 3 * sig2
+yp <- mu2 + 3 * sig2
+
 x <- seq(xm, xp, length= as.integer((xp + abs(xm)) * 10)) # vector series x
 y <- seq(ym, yp, length= as.integer((yp + abs(ym)) * 10)) # vector series y
 co <- c('yellow','white')
 co
 BiVPers(x,y,co)
 BiVPers(x,y)
+BiVPers(x,y,theta = 55, phi = 30, r = 40, d = 0.1,
+        expand = 0.5,ltheta = 90, lphi = 180, shade = 0.4,
+        ticktype = "detailed", nticks=5)
