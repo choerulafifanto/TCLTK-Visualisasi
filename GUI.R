@@ -24,6 +24,31 @@ BivariateGUI <- function(){
   plot.frame<-tk2frame(tt,borderwidth=2,relief="flat")
   tkgrid(plot.frame,padx=0,pady=c(0,0),row=1,column=0,sticky="w")
   
+  
+  # Default Testing Plot
+  plotBivaPers <- function() {
+    generate.data <- Generate.data(mu1=miu[1], mu2=miu[2], sig1=varians[1], 
+                                   sig2=varians[2], rho=correlation)
+    BiVPers(generate.data)
+    
+  }
+  plotBivaCon <- function() {
+    generate.data <- Generate.data(mu1=miu[1], mu2=miu[2], sig1=varians[1], 
+                                   sig2=varians[2], rho=correlation)
+    BiVContour(generate.data)
+  }
+  
+  persp.plot<-tkrplot(plot.frame,plotBivaPers,1.25,1.25)
+  cont.plot<-tkrplot(plot.frame,plotBivaCon,1.25,1.25)
+  tkgrid(persp.plot,cont.plot,row=0,padx=5)
+  
+  # Perform
+  performed<-function(){
+    #changing plot
+    tkrreplot(persp.plot)
+    tkrreplot(cont.plot)
+  }
+  
   # Frame for Input 
   input.frame<-tk2frame(tt,borderwidth=2,relief="flat")
   tkgrid(input.frame,padx=20,pady=c(0,20),row=2,column=0,sticky="w")
@@ -53,7 +78,8 @@ BivariateGUI <- function(){
     label <- sprintf("miu x= %s", value)
     tkconfigure(labelmiux, text = label)
     miu<<-c(value,round(as.double(tclvalue(slidermiuY)),2))
-    print(miu)
+    performed()
+    
   }
   onChangeY <- function(...) {
     value <- round(as.double(tclvalue(slidermiuY)),2)
@@ -61,8 +87,8 @@ BivariateGUI <- function(){
     tkconfigure(labelmiuY, text = label)
     miu<<-c(round(as.double(tclvalue(slidermiuX)),2),
            value)
-    print(miu)
-  }
+    performed()
+    }
   
   miux.slider <- tk2scale(input.frame,from=-3,to=3,
                           variable = slidermiuX, 
@@ -95,16 +121,16 @@ BivariateGUI <- function(){
     tkconfigure(labelvarx, text = label)
     varians<<-c(round(as.double(tclvalue(varx)),2),
                round(as.double(tclvalue(vary)),2))
-    print(varians)
-  }
+    performed()
+    }
   onChangeVarY <- function(...) {
     value <- round(as.double(tclvalue(vary)),2)
     label <- sprintf("var y= %s", value)
     tkconfigure(labelvary, text = label)
     varians<<-c(round(as.double(tclvalue(varx)),2),
                round(as.double(tclvalue(vary)),2))
-    print(varians)
-  }
+    performed()
+    }
   
   var.x.slider <- tk2scale(input.frame,from=0.01,to=2.5,
                           variable = varx, 
@@ -129,37 +155,12 @@ BivariateGUI <- function(){
     label <- sprintf("cor xy= %s", value)
     tkconfigure(labelcorxy, text = label)
     correlation<<-round(as.double(tclvalue(corxy)),2)
-    print(correlation)
+    performed()
   }
   cor.xy.slider <- tk2scale(input.frame,from=-.99,to=.99,
                            variable = corxy, 
                            orient = "horizontal", length = 100,
                            command = onChangeCorXY)
   tkgrid(cor.xy.slider, padx = 5, pady = c(5, 5),row=1,column=10,sticky="w")
-  
-  # Button dan Progress Bar
-  # Generate Data
-  generate.data <- Generate.data(mu1=miu[1], mu2=miu[2], sig1=varians[1], 
-                                 sig2=varians[2], rho=correlation)
-  
-  # Testing Plot
-  plotBivaPers <- function() {
-   BiVPers(generate.data)
-   
-  }
-  plotBivaCon <- function() {
-    mu1<-generate.data$mu1
-    mu2<-generate.data$mu2
-    sig1<-generate.data$sig1
-    sig2<-generate.data$sig2
-    rho<-generate.data$rho
-    contour(generate.data$x,generate.data$y,generate.data$z,
-            sub = bquote(bold(mu[1])==.(mu1)~", "~sigma[1]==.(sig1)~", "
-                         ~mu[2]==.(mu2)~", "~sigma[2]==.(sig2)~", "~rho==.(rho)))
-  }
-  
-  persp.plot<-tkrplot(plot.frame,plotBivaPers,1.25,1.25)
-  cont.plot<-tkrplot(plot.frame,plotBivaCon,1.25,1.25)
-  tkgrid(persp.plot,cont.plot,row=0,padx=5)
   }
 BivariateGUI()
