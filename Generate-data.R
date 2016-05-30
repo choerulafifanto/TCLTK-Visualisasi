@@ -2,7 +2,7 @@
 # Tugas APG - TclTk - Visualisasi
 # Komputasi Statistik
 
-Generate.data <- function (mu1=0, mu2=0, sig1=0.35, sig2=0.35, rho=0.5) {
+Generate.data <- function (mu1, mu2, sig1, sig2, rho) {
   xm <- -3
   xp <- 3
   ym <- -3
@@ -28,4 +28,3 @@ Generate.data <- function (mu1=0, mu2=0, sig1=0.35, sig2=0.35, rho=0.5) {
 }
 
 dataq <- Generate.data(mu1=1, mu2=1, sig1=0.9, sig2=0.9, rho=0.5)
-
