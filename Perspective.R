@@ -38,13 +38,13 @@ BiVPers <- function(generate.data){
   sig1<-generate.data$sig1
   sig2<-generate.data$sig2
   rho<-generate.data$rho
-  co <- c('pink','purple') 
+  co <- c('white','purple') 
   f <- facetcol(co,z)
-  persp(x, y, z, main = "Bivariate Normal Distribution",
+  persp(x, y, z, 
         sub = bquote(bold(mu[1])==.(mu1)~", "~sigma[1]==.(sig1)~", "
                      ~mu[2]==.(mu2)~", "~sigma[2]==.(sig2)~", "~rho==.(rho)),
         col=color[facetcl], theta = 55, phi = 30, r = 40, d = 0.1,
-        expand = 0.5,ltheta = 90, lphi = 180, shade = 0.4,
+        expand = 0.5,ltheta = 90, lphi = 180, shade = .4,
         ticktype = "detailed", nticks=5)
 }
 # rotate graph with theta. Default: theta: 55, phi: 30
