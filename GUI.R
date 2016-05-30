@@ -6,13 +6,25 @@ require (tcltk)
 require (tcltk2)
 require (tkrplot)
 BivariateGUI <- function(){
-  
+  #create main window
   tt <- tktoplevel()
   tktitle(tt)<-"Bivariate Visualization"
-  fontTitle<- tkfont.create(family = "Gentium Book Basic", size = 12,
-                            weight = "bold")
-  fontCommand<- tkfont.create(family = "Gentium Book Basic", size = 10,
-                              slant="italic")
+  
+  #menu
+  tt$env$menu <- tk2menu(tt)           # Create a menu
+  tkconfigure(tt, menu = tt$env$menu)  # Add it to the 'tt' window
+  tt$env$menuFile <- tk2menu(tt$env$menu, tearoff = FALSE)
+  tkadd(tt$env$menuFile, "command", label = "Close",  command = function() tkdestroy(tt))
+  tkadd(tt$env$menu, "cascade", label = "File", menu = tt$env$menuFile)
+  tt$env$menuAbout <- tk2menu(tt$env$menu, tearoff = FALSE)
+  tkadd(tt$env$menu, "command", label = "About", #menu = tt$env$menuAbout,
+          command =function() tkmessageBox(title = "About Program",
+                                           message = "Tugas Analisis Peubah Ganda 4KS1-4KS2 Tahun 2015/2016", icon = "info", type = "ok"))
+   #end menu
+  #change font
+  fontTitle<- tkfont.create(family = "Arial",size = 16,weight = "bold")
+  fontCommand<- tkfont.create(family = "Times New Roman",size = 11,slant="italic")
+  
   tkgrid(
     tk2label(
       tt, text = "Bivariate Normal Simulation", justify = "center",
@@ -166,5 +178,5 @@ BivariateGUI <- function(){
                            orient = "horizontal", length = 100,
                            command = onChangeCorXY)
   tkgrid(cor.xy.slider, padx = 5, pady = c(5, 5),row=1,column=10,sticky="w")
-  }
+    }
 BivariateGUI()
