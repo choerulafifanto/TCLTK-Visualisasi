@@ -20,6 +20,25 @@ BivariateGUI <- function(){
     ),
     padx = 10, pady = c(20, 5),row=0,column=0
   )
+  
+  #Input Variance
+  varx <- tclVar("2.1")
+  vary <- tclVar("2.1")
+  
+  varians<<-c(round(as.double(tclvalue(varx)),2),
+              round(as.double(tclvalue(vary)),2))
+  
+  #Slider Miu
+  slidermiuX <- tclVar("0.5")
+  slidermiuY <- tclVar("0.5")
+  
+  miu<<-c(round(as.double(tclvalue(slidermiuX)),2),
+          round(as.double(tclvalue(slidermiuY)),2))
+  
+  #Input CovVariance
+  corxy <- tclVar(".5")
+  correlation<<-round(as.double(tclvalue(corxy)),2)
+  
   # Frame for Plotting
   plot.frame<-tk2frame(tt,borderwidth=2,relief="flat")
   tkgrid(plot.frame,padx=0,pady=c(0,0),row=1,column=0,sticky="w")
@@ -59,13 +78,6 @@ BivariateGUI <- function(){
     padx= 5,pady=c(5,5),row=0,column=0,sticky="w"
   )
   
-  #Slider Miu
-  slidermiuX <- tclVar("0.5")
-  slidermiuY <- tclVar("0.5")
-  
-  miu<<-c(round(as.double(tclvalue(slidermiuX)),2),
-         round(as.double(tclvalue(slidermiuY)),2))
-  
   labelmiux <- tk2label(input.frame,
                         text = "miu x= 0.5",justify="left") 
   tkgrid(labelmiux, padx = 5, pady = c(5, 5),row=1,column=0,sticky="w")
@@ -102,12 +114,7 @@ BivariateGUI <- function(){
                           command = onChangeY)
   tkgrid(miuY.slider, padx = 5, pady = c(5, 5),row=1,column=6,sticky="w")
   
-  #Input Variance
-  varx <- tclVar("2.1")
-  vary <- tclVar("2.1")
   
-  varians<<-c(round(as.double(tclvalue(varx)),2),
-         round(as.double(tclvalue(vary)),2))
   labelvarx <- tk2label(input.frame,
                         text = "var x= 2.1",justify="left") 
   tkgrid(labelvarx, padx = 5, pady = c(5, 5),row=1,column=2,sticky="w")
@@ -144,9 +151,6 @@ BivariateGUI <- function(){
                           command = onChangeVarY)
   tkgrid(var.y.slider, padx = 5, pady = c(5, 5),row=1,column=8,sticky="w")
   
-  #Input CovVariance
-  corxy <- tclVar(".5")
-  correlation<<-round(as.double(tclvalue(corxy)),2)
   labelcorxy <- tk2label(input.frame,
                         text = "cor xy= 0.5",justify="left") 
   tkgrid(labelcorxy, padx = 5, pady = c(5, 5),row=1,column=9,sticky="w")
