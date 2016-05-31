@@ -8,13 +8,11 @@ require (tkrplot)
 source("Generate-data.R")
 source("Perspective.R")
 source("Contour.R")
-#source("Scrollable.R")
 BivariateGUI <- function(){
   #create main window
   tt <- tktoplevel()
   tktitle(tt)<-"Bivariate Visualization"
-  #tambahan
-  #addScrollbars(parent = tt,widget = tt)
+ 
   #menu
   tt$env$menu <- tk2menu(tt)           # Create a menu
   tkconfigure(tt, menu = tt$env$menu)  # Add it to the 'tt' window
@@ -26,8 +24,9 @@ BivariateGUI <- function(){
           command =function() tkmessageBox(title = "About Program",
                                            message = "Tugas Analisis Peubah Ganda 4KS1-4KS2 Tahun 2016", icon = "info", type = "ok"))
   #change font
-  fontTitle<- tkfont.create(family = "Arial",size = 16,weight = "bold")
-  fontCommand<- tkfont.create(family = "Times New Roman",size = 11,slant="italic")
+  #fontTitle<- tkfont.create(family = "Arial",size = 16,weight = "bold")
+  fontTitle<- tkfont.create(size = 16,weight = "bold")
+  #fontCommand<- tkfont.create(family = "Times New Roman",size = 11,slant="italic")
   
   tkgrid(
     tk2label(
@@ -89,7 +88,8 @@ BivariateGUI <- function(){
   tkgrid(input.frame,padx=20,pady=c(0,20),row=2,column=0,sticky="w")
   tkgrid(
     tk2label(
-      input.frame,text="Parameter Value",font=fontCommand
+      input.frame,text="Parameter Value"
+      #,font=fontCommand
     ),
     padx= 5,pady=c(5,5),row=0,column=0,sticky="w"
   )
@@ -182,5 +182,7 @@ BivariateGUI <- function(){
                            orient = "horizontal", length = 100,
                            command = onChangeCorXY)
   tkgrid(cor.xy.slider, padx = 5, pady = c(5, 5),row=1,column=10,sticky="w")
-  }
+  sg <- ttksizegrip(tt)
+  tkgrid(sg, sticky="es")
+}
 BivariateGUI()
