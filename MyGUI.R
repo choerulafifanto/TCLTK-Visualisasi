@@ -5,9 +5,9 @@
 require (tcltk)
 require (tcltk2)
 require (tkrplot)
-#source("Generate-data.R")
-#source("Perspective.R")
-#source("Contour.R")
+source("Generate-data.R")
+source("Perspective.R")
+source("Contour.R")
 BivariateGUI <- function(){
   #create main window
   tt <- tktoplevel(bg="white", width=1080, height=650)
