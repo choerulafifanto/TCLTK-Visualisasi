@@ -5,9 +5,9 @@
 require (tcltk)
 require (tcltk2)
 require (tkrplot)
-source("Generate-data.R")
-source("Perspective.R")
-source("Contour.R")
+#source("Generate-data.R")
+#source("Perspective.R")
+#source("Contour.R")
 BivariateGUI <- function(){
   #create main window
   tt <- tktoplevel(bg="white", width=1080, height=650)
@@ -60,8 +60,6 @@ BivariateGUI <- function(){
   tkpack.propagate(side.frame,FALSE)
   tkpack(side.frame, side="left",fill="y")
   
-  copyright.frame <- tkframe(tt, bg="white", height=40, width=40)
-  tkpack(copyright.frame, side="bottom", fill="x")
   
   #adding line
   tkpack(tkframe(tt,bg='#E6EBEF',width=40,height=2),fill='x',side='top')
@@ -70,17 +68,29 @@ BivariateGUI <- function(){
   title.frame <- tkframe(tt, bg='white')
   tkpack(title.frame, side='top', anchor='ne',fill='both',pady=10)
   
-  tkpack(tkframe(tt,bg='#E6EBEF',width=40,height=2),fill='x',side='top')
+  tkpack(tkframe(tt,bg='#E6EBEF',width=40,height=4),fill='x',side='top')
   
   #frame plot
-  plot.frame<-tkframe(tt,bg="#E6EBEF",relief="flat", height=440, width=900)
+  plot.frame<-tkframe(tt,bg="#E6EBEF",relief="flat", height=480, width=900)
   tkpack.propagate(plot.frame,FALSE)
-  tkpack(plot.frame, side="right",fill="both",anchor='se',pady=c(0,20),expand=TRUE)
+  tkpack(plot.frame, side="bottom",fill="both",anchor='se',pady=c(0,20),expand=TRUE)
+  
+  plotname<-tkframe(plot.frame,bg="white",width=80,height=20)
+  tkpack(plotname,side='top',fill='x',padx=8,pady=2)
   
   fontTitle<- tkfont.create(family = "Segoe UI",size = 18,weight = "bold")
   fontSubTitle<- tkfont.create(family = "Calibri", size = 10)
+  fontplot<- tkfont.create(family = "Segoe UI",size = 14,weight = "bold")
+  fontSubplot<- tkfont.create(family = "Calibri", size = 12,weight='bold')
   
   #isi title.frame
+  plotlabel<-tklabel(plotname, text = "Plot", 
+                     justify = "left",font=fontplot, bg='white',fg='#5D5D5F')
+  
+  plotlabel2<-tklabel(plotname, text = "(Perspective/Contour)", 
+                      justify = "left",font=fontSubTitle, bg='white',fg='#5D5D5F')
+  tkpack(plotlabel,plotlabel2,side='top',padx=10,anchor='w',fill='x',pady=5)
+  
   titleLabel<-tklabel(title.frame, text = "Bivariate Normal Simulation", 
                       justify = "left",font=fontTitle, bg='white',fg='#5D5D5F')
   tkpack(titleLabel, side='top', padx=10, anchor='w')
@@ -91,8 +101,8 @@ BivariateGUI <- function(){
   #isi plot.prame
   persp.plot<-tkrplot(plot.frame,plotBivaPers,1.1,1.1)
   cont.plot<-tkrplot(plot.frame,plotBivaCon,1.1,1.1)
-  tkpack(cont.plot,persp.plot,side="right",padx=c(0,8))
-  
+  tkpack(cont.plot,side="right",padx=c(0,8))
+  tkpack(persp.plot,side='left',padx=c(8,0))
   ##isi input.frame
   
   birutua <-'#252D3A'
@@ -155,15 +165,22 @@ BivariateGUI <- function(){
     performed()
   }
   
-  miux.slider <- tkscale(input.frame2,from=-3,to=3,
-                         variable = slidermiuX, 
-                         orient = "horizontal", length = 150,sliderlength=20,
-                         command = onChangeX,bg=birutua, fg='white', resolution=.01)
+  miux.slider <- tk2scale(input.frame2,from=-3,to=3,
+                          variable = slidermiuX, 
+                          orient = "horizontal", length = 150,
+                          #sliderlength=20,
+                          command = onChangeX
+                          #,bg=birutua, fg='white', resolution=.01
+  )
+  tcl("ttk::style", "configure","TScale",background=birutua,foreground='white')
   
-  miuY.slider <- tkscale(input.frame2, from = -3, to =3,
-                         variable = slidermiuY, 
-                         orient = "horizontal", length = 150,sliderlength=20,
-                         command = onChangeY,bg=birutua, fg='white',resolution=.01)
+  miuY.slider <- tk2scale(input.frame2, from = -3, to =3,
+                          variable = slidermiuY, 
+                          orient = "horizontal", length = 150,
+                          #sliderlength=20,
+                          command = onChangeY
+                          #,bg=birutua, fg='white',resolution=.01
+  )
   
   tkpack(tkframe(input.frame2,bg='#E6EBEF',width=40,height=2),fill='x',side='top')
   
@@ -217,30 +234,43 @@ BivariateGUI <- function(){
                       bg=birutua)
   tkpack(framevar,side='top',padx=5,fill='both')
   
-  var.x.slider <- tkscale(framevar,from=0.01,to=2.5,
-                          variable = varx,orient = "vertical", 
-                          length = 150,sliderlength=20,
-                          bg=birutua,fg='white',
-                          command=onChangeVarX,
-                          resolution=.01)
   
-  var.y.slider <- tkscale(framevar, from = 0.01, to =2.5,
-                          variable = vary,orient = "vertical", 
-                          length = 150,sliderlength=20, 
-                          bg=birutua,fg='white',
-                          command=onChangeVarY,
-                          resolution=.01)
+  var.x.slider <- tk2scale(framevar,from=0.01,to=2.5,
+                           variable = varx,orient = "vertical", 
+                           length = 150,
+                           #sliderlength=20,
+                           #bg=birutua,fg='white',
+                           command=onChangeVarX
+                           #,resolution=.01
+  )
   
-  cor.xy.slider <- tkscale(framevar,from=-.99,to=.99,
-                           variable = corxy,orient = "vertical",
-                           length = 150,sliderlength=20,
-                           bg=birutua,fg='white',
-                           command=onChangeCorXY,resolution=0.01)
+  var.y.slider <- tk2scale(framevar, from = 0.01, to =2.5,
+                           variable = vary,orient = "vertical", 
+                           length = 150,
+                           #sliderlength=20, 
+                           #bg=birutua,fg='white',
+                           command=onChangeVarY
+                           #,resolution=.01
+  )
+  
+  cor.xy.slider <- tk2scale(framevar,from=-.99,to=.99,
+                            variable = corxy,orient = "vertical",
+                            length = 150,
+                            #sliderlength=20, bg=birutua,fg='white',
+                            command=onChangeCorXY
+                            #,resolution=0.01
+  )
   
   
-  tkpack(var.x.slider,var.y.slider,cor.xy.slider, side='left',padx=c(5,0),pady=10)
+  tkpack(var.x.slider,var.y.slider,cor.xy.slider, 
+         side='left'
+         ,padx=15
+         ,pady=c(0,10)
+  )
   
-  tkpack(tkframe(input.frame2,bg='#E6EBEF',width=40,height=2),fill='x',side='top')
+  tkpack(framevar,side='top',padx=5,fill='both')
+  
   
 }
 BivariateGUI()
+
