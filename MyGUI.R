@@ -96,14 +96,14 @@ BivariateGUI <- function(){
   biruTerang <-'#5AB4CE'
   
   #logo
-  frame1 <- tkframe(side.frame,height=60, width=30, bg='white')
+  frame1 <- tkframe(side.frame,height=60, width=30, bg='#E4F1FE')
   frame2 <- tkframe(frame1, height=50, width=30, bg=birutua)
   logoLabel1 <- tklabel(frame2, text="Team R-Tcl/Tk",justify='center',
-                        font=(tkfont.create(family = "Calibri", size = 15,weight='bold')),
-                        bg=birutua,fg='white')
-  logoLabel2 <- tklabel(frame2, text="KS1-KS2",justify='center',
+                        font=(tkfont.create(family = "Segoe Ui", size = 16,weight='bold')),
+                        bg=birutua,fg='#E4F1FE')
+  logoLabel2 <- tklabel(frame2, text="KS 54",justify='center',
                         font=(tkfont.create(family = "Calibri", size = 10)),
-                        bg=birutua,fg='white')
+                        bg=birutua,fg='#E4F1FE')
   
   ##isi input.frame                    
   #parameter input
@@ -242,20 +242,22 @@ BivariateGUI <- function(){
   tkpack(tklabel(title.frame, text= "A Visualization of Bivariate Normal Data in Contour and Perspective Plot",
                  justify='left', font=fontSubTitle,bg='white',fg='#A8B0BB'),
          side='top', anchor='w',padx=10)
-  tkpack(cont.plot,side="right",padx=c(0,8))
+  tkpack(cont.plot,side="right",padx=c(0,6))
   tkpack(persp.plot,side='left',padx=c(8,0))
-  tkpack(frame1, side='top', fill='x', padx=5,pady=10)
-  tkpack(frame2, fill='both',padx=2,pady=2)
-  tkpack(logoLabel1,logoLabel2,side='top')
+  tkpack(frame1, side='top', fill='x')
+  tkpack(frame2, fill='both',pady=c(1,1))
+  tkpack(logoLabel1,side='top',pady=c(10,0))
+  tkpack(logoLabel2,side='top',pady=c(0,10))
   tkpack(input.frame, side='top', anchor='n', fill='both',padx=5,pady=10)
   tkpack(input.frame2, fill='both',padx=2,pady=2)
   tkpack(InputLabel, side='top',anchor='w',pady=c(5,10))
-  tkpack(tkframe(input.frame2,bg='#E6EBEF',width=40,height=2),fill='x',side='top')
+  tkpack(tkframe(input.frame2,bg='#7f8c8d',width=40,height=2),fill='x',side='top')
   tkpack(labelmiux,side='top',anchor='w')
   tkpack(miux.slider,side='top',anchor='w',padx=15,pady=c(0,5))
   tkpack(labelmiuY,side='top',anchor='w')
-  tkpack(miuY.slider,side='top',anchor='w',padx=15,pady=c(0,20))
-  tkpack(tkframe(input.frame2,bg='#E6EBEF',width=40,height=2),fill='x',side='top')
+  tkpack(miuY.slider,side='top',anchor='w',padx=15,pady=c(0,15))
+  tkpack(tkframe(input.frame2,bg='#7f8c8d',width=40,height=2),fill='x',side='top')
+  tkpack(tkframe(input.frame2,bg='#7f8c8d',width=40,height=2),fill='x',side='top',pady=c(30,0))
   tkpack(labelvar.frame, side='top',fill='both',padx=10)
   tkpack(labelvarx,labelvary,labelcorxy, side='left',padx=7,pady=c(10,5))
   tkpack(var.x.slider,var.y.slider,cor.xy.slider, 
@@ -264,7 +266,7 @@ BivariateGUI <- function(){
          ,pady=c(0,10)
   )
   tkpack(framevar,side='top',padx=5,fill='both')
-  
+  tkpack(tkframe(input.frame2,bg='#7f8c8d',width=40,height=2),fill='x',side='top')
   
 }
 BivariateGUI()
