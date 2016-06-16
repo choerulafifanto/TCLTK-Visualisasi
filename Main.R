@@ -1,1 +1,1 @@
-source("GUI.R")
+source("MyGUI.R")
